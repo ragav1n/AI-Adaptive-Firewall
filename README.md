@@ -11,9 +11,9 @@ This project aims to build an intelligent, adaptive firewall that can:
 
 1. ```sniffer.py```
       – Packet-Level Live Traffic Logger
-      Captures every IP packet and logs detailed metadata into traffic_log.csv.
+      - Captures every IP packet and logs detailed metadata into traffic_log.csv.
       
-      Features:
+      ### Features:
       - Logs source/destination IP and port
       - MAC addresses (Ethernet layer)
       - Protocol, TTL, length
@@ -22,7 +22,7 @@ This project aims to build an intelligent, adaptive firewall that can:
       - Payload size
       - Real-time printout and CSV output
       
-      Use for:
+      ### Use for:
       - Low-level inspection
       - Forensics
       - Building a packet-based dataset
@@ -31,22 +31,32 @@ This project aims to build an intelligent, adaptive firewall that can:
 
 2. ```flow_sniffer.py```
       – Session-Based Flow Tracker
-      Groups packets into connection flows and logs flow-level stats to flow_log.csv.
+      - Groups packets into session-level flows and enriches each flow with features and metadata for anomaly detection, ML training, and threat analysis.
       
-      Features:
-      - Tracks TCP/UDP flows using 5-tuple
-      - Logs:
-        - Total packets
-        - Total bytes
-        - Flow duration
+      ### Features:
+   
+     ### ✅ Flow Tracking
+      - Groups packets into flows using 5-tuple `(src_ip, src_port, dst_ip, dst_port, protocol)`
+      - Tracks:
+        - Packet count
+        - Byte count
+        - Duration
+        - TCP flags (SYN, FIN, RST, ACK)
         - Direction (inbound/outbound)
-        - Auto-expires idle flows after FLOW_TIMEOUT seconds
-        - Flushes active flows on exit
-      
-      Use for:
-      - Behavioral anomaly detection
-      - ML model training
-      - Summary analytics
+       
+      ### ✅ ML-Ready Features Enrichment
+      - `avg_packet_size`  
+      - `pps` (packets/sec)  
+      - `bps` (bytes/sec)  
+      - `is_large_flow` flag based on byte threshold
+
+      ### ✅ External Intelligence Enrichment
+      - WHOIS-based ASN lookup using `ipwhois`
+      - Adds:
+        - `dst_country`
+        - `dst_org`
+        - `dst_asn`
+      - Automatically detects and tags private IP addresses
 
 # Installation
 Run this command to install dependencies:
